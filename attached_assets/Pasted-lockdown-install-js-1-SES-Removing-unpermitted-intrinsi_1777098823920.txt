@@ -1,0 +1,103 @@
+lockdown-install.js:1 SES Removing unpermitted intrinsics
+splitpay-api-serverr.vercel.app/api/splits?limit=6:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/stats:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/stats:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/splits?limit=6:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/stats:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/splits?limit=6:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/splits?limit=6:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/stats:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/splits/by-creator/0x1c03A338ba3087C2681B3334d6E168647AB09D64:1  Failed to load resource: the server responded with a status of 500 ()
+splitpay-api-serverr.vercel.app/api/splits/by-creator/0x1c03A338ba3087C2681B3334d6E168647AB09D64:1  Failed to load resource: the server responded with a status of 500 ()
+The specified value "NaN" cannot be parsed, or is out of range.
+The specified value "NaN" cannot be parsed, or is out of range.
+The specified value "NaN" cannot be parsed, or is out of range.
+The specified value "NaN" cannot be parsed, or is out of range.
+The specified value "NaN" cannot be parsed, or is out of range.
+The specified value "NaN" cannot be parsed, or is out of range.
+inpage.js:1 MetaMask - RPC Error: txpool is full Object
+(anonymous) @ inpage.js:1
+index-CoB6lfkx.js:1678 ContractFunctionExecutionError: The contract function "createSplit" reverted with the following reason:
+txpool is full
+
+Contract Call:
+  address:   0x575f1AA76CAdC580723Ba98e6B79BA5463aA7886
+  function:  createSplit(uint128 totalAmount, uint32 participantCount, uint8 splitType, string title)
+  args:                 (4000000, 2, 0, dosa)
+  sender:    0x1c03A338ba3087C2681B3334d6E168647AB09D64
+
+Docs: https://viem.sh/docs/contract/writeContract
+Details: txpool is full
+Version: viem@2.48.4
+    at Do (index-CoB6lfkx.js:43:5773)
+    at wp.t [as internal] (index-CoB6lfkx.js:49:3277)
+    at async SY (index-CoB6lfkx.js:53:10410)Caused by: ContractFunctionRevertedError: The contract function "createSplit" reverted with the following reason:
+txpool is full
+
+Details: txpool is full
+Version: viem@2.48.4
+    at Do (index-CoB6lfkx.js:43:5661)
+    at wp.t [as internal] (index-CoB6lfkx.js:49:3277)
+    at async SY (index-CoB6lfkx.js:53:10410)Caused by: TransactionExecutionError: An internal error was received.
+
+Request Arguments:
+  chain:  Arc Testnet (id: 5042002)
+  from:   0x1c03A338ba3087C2681B3334d6E168647AB09D64
+  to:     0x575f1AA76CAdC580723Ba98e6B79BA5463aA7886
+  data:   0xc406fbf700000000000000000000000000000000000000000000000000000000003d09000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000004646f736100000000000000000000000000000000000000000000000000000000
+
+Details: txpool is full
+Version: viem@2.48.4
+    at m9 (index-CoB6lfkx.js:46:14754)
+    at fG (index-CoB6lfkx.js:49:2851)
+    at async wp.t [as internal] (index-CoB6lfkx.js:49:3216)
+    at async SY (index-CoB6lfkx.js:53:10410)Caused by: InternalRpcError: An internal error was received.
+
+Details: txpool is full
+Version: viem@2.48.4
+    at xp.delay.count (index-CoB6lfkx.js:49:21326)
+    at async c (index-CoB6lfkx.js:49:3659)
+j @ index-CoB6lfkx.js:1678
+inpage.js:1 MetaMask - RPC Error: txpool is full Object
+(anonymous) @ inpage.js:1
+index-CoB6lfkx.js:1678 ContractFunctionExecutionError: The contract function "createSplit" reverted with the following reason:
+txpool is full
+
+Contract Call:
+  address:   0x575f1AA76CAdC580723Ba98e6B79BA5463aA7886
+  function:  createSplit(uint128 totalAmount, uint32 participantCount, uint8 splitType, string title)
+  args:                 (4000000, 2, 0, dosa)
+  sender:    0x1c03A338ba3087C2681B3334d6E168647AB09D64
+
+Docs: https://viem.sh/docs/contract/writeContract
+Details: txpool is full
+Version: viem@2.48.4
+    at Do (index-CoB6lfkx.js:43:5773)
+    at wp.t [as internal] (index-CoB6lfkx.js:49:3277)
+    at async SY (index-CoB6lfkx.js:53:10410)Caused by: ContractFunctionRevertedError: The contract function "createSplit" reverted with the following reason:
+txpool is full
+
+Details: txpool is full
+Version: viem@2.48.4
+    at Do (index-CoB6lfkx.js:43:5661)
+    at wp.t [as internal] (index-CoB6lfkx.js:49:3277)
+    at async SY (index-CoB6lfkx.js:53:10410)Caused by: TransactionExecutionError: An internal error was received.
+
+Request Arguments:
+  chain:  Arc Testnet (id: 5042002)
+  from:   0x1c03A338ba3087C2681B3334d6E168647AB09D64
+  to:     0x575f1AA76CAdC580723Ba98e6B79BA5463aA7886
+  data:   0xc406fbf700000000000000000000000000000000000000000000000000000000003d09000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000004646f736100000000000000000000000000000000000000000000000000000000
+
+Details: txpool is full
+Version: viem@2.48.4
+    at m9 (index-CoB6lfkx.js:46:14754)
+    at fG (index-CoB6lfkx.js:49:2851)
+    at async wp.t [as internal] (index-CoB6lfkx.js:49:3216)
+    at async SY (index-CoB6lfkx.js:53:10410)Caused by: InternalRpcError: An internal error was received.
+
+Details: txpool is full
+Version: viem@2.48.4
+    at xp.delay.count (index-CoB6lfkx.js:49:21326)
+    at async c (index-CoB6lfkx.js:49:3659)
+j @ index-CoB6lfkx.js:1678
