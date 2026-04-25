@@ -167,9 +167,47 @@ export const ListSplitsByCreatorResponse = zod.array(
 );
 
 /**
+ * @summary List splits the user is involved in (created or paid)
+ */
+export const ListSplitsForUserParams = zod.object({
+  address: zod.coerce.string(),
+});
+
+export const ListSplitsForUserResponseItem = zod.object({
+  id: zod.string(),
+  title: zod.string().optional(),
+  creatorAddress: zod.string(),
+  onChainId: zod.string(),
+  totalAmount: zod.string(),
+  participantCount: zod.number(),
+  splitType: zod.enum(["equal", "custom"]),
+  customAmounts: zod.array(zod.string()).optional(),
+  txHash: zod.string(),
+  paidCount: zod.number(),
+  createdAt: zod.coerce.date(),
+});
+export const ListSplitsForUserResponse = zod.array(
+  ListSplitsForUserResponseItem,
+);
+
+/**
  * @summary Aggregate stats across all splits
  */
 export const GetStatsResponse = zod.object({
+  totalSplits: zod.number(),
+  totalVolume: zod.string().describe("microUSDC sum of all paid amounts"),
+  totalParticipantsPaid: zod.number(),
+  activeSplits: zod.number(),
+});
+
+/**
+ * @summary Stats scoped to splits this user is involved in
+ */
+export const GetStatsForUserParams = zod.object({
+  address: zod.coerce.string(),
+});
+
+export const GetStatsForUserResponse = zod.object({
   totalSplits: zod.number(),
   totalVolume: zod.string().describe("microUSDC sum of all paid amounts"),
   totalParticipantsPaid: zod.number(),

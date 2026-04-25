@@ -244,6 +244,53 @@ router.get("/splits/by-creator/:address", async (req, res) => {
   res.json(rows.map((s) => toSplitDto(s, countMap.get(s.id) ?? 0)));
 });
 
+router.get("/splits/for-user/:address", async (req, res) => {
+  const address = req.params.address.toLowerCase();
+
+  // Splits created by this address.
+  const created = await db
+    .select()
+    .from(splitsTable)
+    .where(eq(splitsTable.creatorAddress, address));
+
+  // Splits where this address has at least one payment recorded.
+  const paidSplitIdsRows = await db
+    .selectDistinct({ splitId: paymentsTable.splitId })
+    .from(paymentsTable)
+    .where(eq(paymentsTable.payerAddress, address));
+  const paidIds = paidSplitIdsRows.map((r) => r.splitId);
+
+  const paid = paidIds.length
+    ? await db
+        .select()
+        .from(splitsTable)
+        .where(inArray(splitsTable.id, paidIds))
+    : [];
+
+  const merged = new Map<string, SplitRow>();
+  for (const s of created) merged.set(s.id, s);
+  for (const s of paid) merged.set(s.id, s);
+
+  const rows = Array.from(merged.values()).sort(
+    (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+  );
+
+  const ids = rows.map((s) => s.id);
+  const counts = ids.length
+    ? await db
+        .select({
+          splitId: paymentsTable.splitId,
+          c: sql<number>`count(*)::int`,
+        })
+        .from(paymentsTable)
+        .where(inArray(paymentsTable.splitId, ids))
+        .groupBy(paymentsTable.splitId)
+    : [];
+  const countMap = new Map(counts.map((r) => [r.splitId, r.c]));
+
+  res.json(rows.map((s) => toSplitDto(s, countMap.get(s.id) ?? 0)));
+});
+
 router.get("/splits/by-token/:token", async (req, res) => {
   const token = req.params.token;
 

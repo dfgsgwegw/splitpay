@@ -160,6 +160,27 @@ paths:
                 items:
                   $ref: "#/components/schemas/Split"
 
+  /splits/for-user/{address}:
+    get:
+      operationId: listSplitsForUser
+      tags: [splits]
+      summary: List splits the user is involved in (created or paid)
+      parameters:
+        - in: path
+          name: address
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Splits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Split"
+
   /stats:
     get:
       operationId: getStats
@@ -168,6 +189,25 @@ paths:
       responses:
         "200":
           description: Stats snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+
+  /stats/for-user/{address}:
+    get:
+      operationId: getStatsForUser
+      tags: [stats]
+      summary: Stats scoped to splits this user is involved in
+      parameters:
+        - in: path
+          name: address
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Stats snapshot for user
           content:
             application/json:
               schema:

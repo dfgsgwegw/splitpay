@@ -645,6 +645,94 @@ export function useListSplitsByCreator<
 }
 
 /**
+ * @summary List splits the user is involved in (created or paid)
+ */
+export const getListSplitsForUserUrl = (address: string) => {
+  return `/api/splits/for-user/${address}`;
+};
+
+export const listSplitsForUser = async (
+  address: string,
+  options?: RequestInit,
+): Promise<Split[]> => {
+  return customFetch<Split[]>(getListSplitsForUserUrl(address), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getListSplitsForUserQueryKey = (address: string) => {
+  return [`/api/splits/for-user/${address}`] as const;
+};
+
+export const getListSplitsForUserQueryOptions = <
+  TData = Awaited<ReturnType<typeof listSplitsForUser>>,
+  TError = ErrorType<unknown>,
+>(
+  address: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof listSplitsForUser>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getListSplitsForUserQueryKey(address);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof listSplitsForUser>>
+  > = ({ signal }) => listSplitsForUser(address, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!address,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof listSplitsForUser>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListSplitsForUserQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listSplitsForUser>>
+>;
+export type ListSplitsForUserQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List splits the user is involved in (created or paid)
+ */
+
+export function useListSplitsForUser<
+  TData = Awaited<ReturnType<typeof listSplitsForUser>>,
+  TError = ErrorType<unknown>,
+>(
+  address: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof listSplitsForUser>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListSplitsForUserQueryOptions(address, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
  * @summary Aggregate stats across all splits
  */
 export const getGetStatsUrl = () => {
@@ -701,6 +789,94 @@ export function useGetStats<
   request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetStatsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Stats scoped to splits this user is involved in
+ */
+export const getGetStatsForUserUrl = (address: string) => {
+  return `/api/stats/for-user/${address}`;
+};
+
+export const getStatsForUser = async (
+  address: string,
+  options?: RequestInit,
+): Promise<Stats> => {
+  return customFetch<Stats>(getGetStatsForUserUrl(address), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetStatsForUserQueryKey = (address: string) => {
+  return [`/api/stats/for-user/${address}`] as const;
+};
+
+export const getGetStatsForUserQueryOptions = <
+  TData = Awaited<ReturnType<typeof getStatsForUser>>,
+  TError = ErrorType<unknown>,
+>(
+  address: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getStatsForUser>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetStatsForUserQueryKey(address);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getStatsForUser>>> = ({
+    signal,
+  }) => getStatsForUser(address, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!address,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getStatsForUser>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetStatsForUserQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getStatsForUser>>
+>;
+export type GetStatsForUserQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Stats scoped to splits this user is involved in
+ */
+
+export function useGetStatsForUser<
+  TData = Awaited<ReturnType<typeof getStatsForUser>>,
+  TError = ErrorType<unknown>,
+>(
+  address: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getStatsForUser>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetStatsForUserQueryOptions(address, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
