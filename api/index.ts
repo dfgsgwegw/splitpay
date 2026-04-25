@@ -6,8 +6,7 @@
  * on Vercel (each request invokes this function).
  *
  * Vercel routes `/api` and `/api/*` here via the rewrites in `vercel.json`,
- * preserving the original path on `req.url` so the Express router mounted at
- * `/api` matches as expected.
+ * preserving the original path on `req.url` so the Express router matches.
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
 import app from "../artifacts/api-server/src/app.js";
