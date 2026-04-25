@@ -1,8 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
+  "buildCommand": "pnpm --filter @workspace/api-spec run codegen && BASE_PATH=/ pnpm --filter @workspace/splitpay run build",
+  "outputDirectory": "artifacts/splitpay/dist/public",
+  "installCommand": "pnpm install --frozen-lockfile=false",
   "rewrites": [
-    { "source": "/api(/.*)?", "destination": "/api/index" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

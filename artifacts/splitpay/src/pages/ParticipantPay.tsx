@@ -38,8 +38,10 @@ type ParticipantView = {
   payerAddress?: string;
 };
 
+const API_BASE = (import.meta.env.VITE_API_URL ?? "").replace(/\/+$/, "");
+
 async function fetchParticipantView(token: string): Promise<ParticipantView> {
-  const res = await fetch(`/api/splits/by-token/${token}`);
+  const res = await fetch(`${API_BASE}/api/splits/by-token/${token}`);
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as any).message || "Token not found");

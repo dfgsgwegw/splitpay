@@ -87,27 +87,56 @@ DATABASE_URL=<your-connection-string> \
 
 ---
 
-## 4. Push the repo to Vercel
+## 4. Push the repo to Vercel (two projects)
 
-You can either use the Vercel CLI or the dashboard.
+The frontend (Vite SPA) and the API (Express server) are deployed as **two
+separate Vercel projects** from the same repo. This avoids the Vercel
+serverless TypeScript checker tripping over the workspace's strict
+`tsconfig` and Express 5 types.
 
-**Dashboard:**
-1. Push the repo to GitHub/GitLab/Bitbucket.
-2. In Vercel → "Add New Project" → import the repo.
-3. Set the **Build settings** (Vercel will auto-detect most of this from
-   `vercel.json`):
+You can use the dashboard or the CLI for each. Push the repo to your Git host
+first, then import it twice — once with Root Directory at the repo root
+(frontend) and once with Root Directory at `artifacts/api-server` (API).
+
+### 4a. Frontend project (Vite SPA)
+
+1. Vercel → **Add New Project** → import the repo.
+2. **Root Directory:** `.` (repo root — leave default).
+3. Settings are read from the root `vercel.json`. You should not need to
+   override anything, but for reference:
    - **Framework Preset:** Other
    - **Install Command:** `pnpm install --frozen-lockfile=false`
    - **Build Command:** `pnpm --filter @workspace/api-spec run codegen && BASE_PATH=/ pnpm --filter @workspace/splitpay run build`
    - **Output Directory:** `artifacts/splitpay/dist/public`
-4. Add the env vars in the next step.
+4. Add the **frontend env vars** from the table below.
+5. Deploy. You'll get a URL like `https://splitpay.vercel.app`.
 
-**CLI:**
+### 4b. API project (Express server)
+
+1. Vercel → **Add New Project** → import the **same** repo.
+2. **Root Directory:** `artifacts/api-server`.
+3. Settings are read from `artifacts/api-server/vercel.json`. The build runs
+   `pnpm install` from the monorepo root and bundles the Express app into a
+   single serverless function exposed at `/api/*`.
+4. Add the **API env vars** from the table below.
+5. Deploy. You'll get a URL like `https://splitpay-api.vercel.app`.
+
+### 4c. Wire the frontend to the API
+
+After the API project is live:
+
+1. Copy its production URL (e.g. `https://splitpay-api.vercel.app`).
+2. In the **frontend** Vercel project → Settings → Environment Variables, set
+   `VITE_API_URL` to that URL.
+3. Redeploy the frontend (Vite vars are baked at build time).
+
+**CLI shortcut for either project:**
 
 ```bash
 npm i -g vercel
-vercel link
-vercel env add ...   # see below
+vercel link            # run inside the repo root for the frontend
+                       # or inside artifacts/api-server for the API
+vercel env add ...     # see tables below
 vercel --prod
 ```
 
@@ -115,25 +144,32 @@ vercel --prod
 
 ## 5. Set Vercel environment variables
 
-In your Vercel project → Settings → Environment Variables, add the following
-for **Production** (and Preview, if you want):
+### Frontend project
+
+| Variable | Value | Notes |
+| --- | --- | --- |
+| `VITE_API_URL` | `https://splitpay-api.vercel.app` | URL of the API project from step 4b |
+| `VITE_WALLETCONNECT_PROJECT_ID` | `<project-id>` | Optional, for mobile wallets |
+
+`VITE_*` vars are baked into the frontend bundle at build time, so changing
+them requires a redeploy.
+
+### API project
 
 | Variable | Value | Notes |
 | --- | --- | --- |
 | `DATABASE_URL` | `postgresql://...` | From step 3 |
+| `FRONTEND_URL` | `https://splitpay.vercel.app` | URL of the frontend project — used for CORS |
 | `ARC_CHAIN_ID` | `5042002` | Arc Testnet chain id |
 | `ARC_CHAIN_NAME` | `Arc Testnet` | |
 | `ARC_RPC_URL` | `https://rpc.testnet.arc.network` | Or an Alchemy/dRPC URL |
 | `ARC_EXPLORER_URL` | `https://testnet.arcscan.app` | |
 | `USDC_ADDRESS` | `0x3600000000000000000000000000000000000000` | Arc system USDC |
 | `SPLITPAY_CONTRACT_ADDRESS` | `0x575f1AA76CAdC580723Ba98e6B79BA5463aA7886` | Latest deploy on Arc Testnet (step 2 if redeploying) |
-| `VITE_WALLETCONNECT_PROJECT_ID` | `<project-id>` | Optional, for mobile wallets |
 | `NODE_ENV` | `production` | |
 
-The Vite-prefixed vars (`VITE_*`) are baked into the frontend bundle at build
-time, so changing them requires a redeploy. The non-prefixed ones are read at
-runtime by the API and exposed via `GET /api/config`, so the frontend picks
-them up without rebuilding.
+The non-prefixed vars are read at runtime by the API and exposed to the
+frontend via `GET /api/config`, so changing them only needs an API redeploy.
 
 ---
 

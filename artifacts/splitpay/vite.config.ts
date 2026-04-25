@@ -40,6 +40,7 @@ const apiProxyTarget =
 export default defineConfig({
   base: basePath,
   plugins: [
+    geminiConnectorShim(),
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),

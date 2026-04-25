@@ -2,12 +2,12 @@
 attached_assets/
 contracts/hardhat/
 artifacts/mockup-sandbox/
+artifacts/api-server/
 artifacts/splitpay/node_modules/
-artifacts/api-server/node_modules/
-artifacts/api-server/dist/
 node_modules/
 .replit
 replit.nix
 replit.md
 DEPLOY.md
 *.log
+zipFile.zip
