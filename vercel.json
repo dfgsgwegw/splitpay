@@ -1,11 +1,23 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "pnpm install --no-frozen-lockfile",
-  "buildCommand": "pnpm --filter @workspace/api-spec run codegen && BASE_PATH=/ pnpm --filter @workspace/splitpay run build",
-  "outputDirectory": "artifacts/splitpay/dist/public",
-  "framework": null,
-  "rewrites": [
-    { "source": "/api", "destination": "/api/index" },
-    { "source": "/api/(.*)", "destination": "/api/index" }
+  "builds": [
+    {
+      "src": "api/index.ts",
+      "use": "@vercel/node",
+      "config": {
+        "tsconfig": "api/tsconfig.json"
+      }
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "outputDirectory": "artifacts/splitpay/dist/public"
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/api(/.*)?", "dest": "/api/index.ts" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
