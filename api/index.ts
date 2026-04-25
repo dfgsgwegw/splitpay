@@ -10,7 +10,7 @@
  * `/api` matches as expected.
  */
 import type { IncomingMessage, ServerResponse } from "node:http";
-import app from "../artifacts/api-server/src/app";
+import app from "../artifacts/api-server/src/app.js";
 
 export default function handler(
   req: IncomingMessage,
